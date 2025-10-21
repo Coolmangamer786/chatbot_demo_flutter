@@ -69,12 +69,11 @@ class _ChatState extends State<Chat> {
 
     await Future.wait([_recorder.initialize()]);
 
-    // TODO Get a Service account
-    // Get a Service account
-    final serviceAccount = ServiceAccount.fromString(
-        '${(await rootBundle.loadString('assets/credentials.json'))}');
-    // Create a DialogflowGrpc Instance
-    dialogflow = DialogflowGrpcV2Beta1.viaServiceAccount(serviceAccount);
+    // TODO Get a Service account securely (e.g., from environment variables or secure storage)
+    // Removed loading from assets for security reasons
+    // final serviceAccount = ServiceAccount.fromString(
+    //     '${(await rootBundle.loadString('assets/credentials.json'))}');
+    // dialogflow = DialogflowGrpcV2Beta1.viaServiceAccount(serviceAccount);
   }
 
   void stopStream() async {
@@ -183,7 +182,7 @@ class _ChatState extends State<Chat> {
       Container(
           decoration: BoxDecoration(color: Theme.of(context).cardColor),
           child: IconTheme(
-            data: IconThemeData(color: Theme.of(context).accentColor),
+             data: IconThemeData(color: Theme.of(context).colorScheme.secondary),
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Row(
@@ -240,6 +239,11 @@ class ChatMessage extends StatelessWidget {
             Text(this.name, style: TextStyle(fontWeight: FontWeight.bold)),
             Container(
               margin: const EdgeInsets.only(top: 5.0),
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8.0),
+              ),
               child: Text(text),
             ),
           ],
@@ -254,22 +258,28 @@ class ChatMessage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            Text(this.name, style: Theme.of(context).textTheme.subtitle1),
+             Text(this.name, style: Theme.of(context).textTheme.bodyLarge),
             Container(
               margin: const EdgeInsets.only(top: 5.0),
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8.0),
+              ),
               child: Text(text),
             ),
           ],
         ),
       ),
-      Container(
-        margin: const EdgeInsets.only(left: 16.0),
-        child: CircleAvatar(
-            child: Text(
-          this.name[0],
-          style: TextStyle(fontWeight: FontWeight.bold),
-        )),
-      ),
+            Container(
+              margin: const EdgeInsets.only(top: 5.0),
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Text(text),
+            ),
     ];
   }
 
